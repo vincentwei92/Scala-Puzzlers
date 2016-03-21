@@ -2,6 +2,10 @@ object Puzzler {
 	def sumItUp: Int = {
 		def one(x: Int): Int = { return x; 1 }
 		val two = (x: Int) => { return x; 2 }
+		object N {
+			1 + one(2) + two(3)
+		}
+		N
 		1 + one(2) + two(3)
 	}
 }

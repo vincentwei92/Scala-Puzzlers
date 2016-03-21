@@ -1,0 +1,363 @@
+[[syntax trees at end of                     typer]] // Sorting.scala
+package scala {
+  package util {
+    import scala.reflect.ClassTag;
+    import scala.math.Ordering;
+    object Sorting extends scala.AnyRef {
+      def <init>(): scala.util.Sorting.type = {
+        Sorting.super.<init>();
+        ()
+      };
+      def quickSort(a: Array[Double]): Unit = java.util.Arrays.sort(a);
+      def quickSort(a: Array[Int]): Unit = java.util.Arrays.sort(a);
+      def quickSort(a: Array[Float]): Unit = java.util.Arrays.sort(a);
+      final private[this] val qsortThreshold: Int(16) = 16;
+      final <stable> <accessor> private def qsortThreshold: Int(16) = 16;
+      def quickSort[K](a: Array[K])(implicit evidence$1: scala.math.Ordering[K]): Unit = {
+        def inner(a: Array[K], i0: Int, iN: Int, ord: scala.math.Ordering[K]): Unit = if (iN.-(i0).<(16))
+          Sorting.this.insertionSort[K](a, i0, iN, ord)
+        else
+          {
+            var iK: Int = i0.+(iN).>>>(1);
+            var pL: Int = if (ord.compare(a.apply(i0), a.apply(iN.-(1))).<=(0))
+              if (ord.compare(a.apply(i0), a.apply(iK)).<(0))
+                if (ord.compare(a.apply(iN.-(1)), a.apply(iK)).<(0))
+                  iN.-(1)
+                else
+                  iK
+              else
+                i0
+            else
+              if (ord.compare(a.apply(i0), a.apply(iK)).<(0))
+                i0
+              else
+                if (ord.compare(a.apply(iN.-(1)), a.apply(iK)).<=(0))
+                  iN.-(1)
+                else
+                  iK;
+            val pivot: K = a.apply(pL);
+            if (pL.!=(iK))
+              {
+                a.update(pL, a.apply(iK));
+                a.update(iK, pivot);
+                pL = iK
+              }
+            else
+              ();
+            var pR: Int = pL.+(1);
+            var iA: Int = i0;
+            var iB: Int = iN;
+            while$1(){
+              if (pL.-(iA).>(0))
+                {
+                  {
+                    val current: K = a.apply(iA);
+                    ord.compare(current, pivot) match {
+                      case 0 => {
+                        a.update(iA, a.apply(pL.-(1)));
+                        a.update(pL.-(1), current);
+                        pL = pL.-(1)
+                      }
+                      case (x @ _) if x.<(0) => iA = iA.+(1)
+                      case _ if iB.>(pR) => {
+                        a.update(iA, a.apply(iB.-(1)));
+                        a.update(iB.-(1), current);
+                        iB = iB.-(1)
+                      }
+                      case _ => {
+                        a.update(iA, a.apply(pL.-(1)));
+                        a.update(pL.-(1), a.apply(pR.-(1)));
+                        a.update(pR.-(1), current);
+                        pL = pL.-(1);
+                        pR = pR.-(1);
+                        iB = iB.-(1)
+                      }
+                    }
+                  };
+                  while$1()
+                }
+              else
+                ()
+            };
+            while$2(){
+              if (iB.-(pR).>(0))
+                {
+                  {
+                    val current: K = a.apply(iB.-(1));
+                    ord.compare(current, pivot) match {
+                      case 0 => {
+                        a.update(iB.-(1), a.apply(pR));
+                        a.update(pR, current);
+                        pR = pR.+(1)
+                      }
+                      case (x @ _) if x.>(0) => iB = iB.-(1)
+                      case _ => {
+                        a.update(iB.-(1), a.apply(pR));
+                        a.update(pR, a.apply(pL));
+                        a.update(pL, current);
+                        iA = iA.+(1);
+                        pL = pL.+(1);
+                        pR = pR.+(1)
+                      }
+                    }
+                  };
+                  while$2()
+                }
+              else
+                ()
+            };
+            if (iA.-(i0).<(iN.-(iB)))
+              {
+                inner(a, i0, iA, ord);
+                inner(a, iB, iN, ord)
+              }
+            else
+              {
+                inner(a, iB, iN, ord);
+                inner(a, i0, iA, ord)
+              }
+          };
+        inner(a, 0, a.length, scala.Predef.implicitly[scala.math.Ordering[K]](evidence$1))
+      };
+      final private[this] val mergeThreshold: Int(32) = 32;
+      final <stable> <accessor> private def mergeThreshold: Int(32) = 32;
+      private def insertionSort[@specialized T](a: Array[T], i0: Int, iN: Int, ord: scala.math.Ordering[T]): Unit = {
+        val n: Int = iN.-(i0);
+        if (n.<(2))
+          return ()
+        else
+          ();
+        if (ord.compare(a.apply(i0), a.apply(i0.+(1))).>(0))
+          {
+            val temp: T = a.apply(i0);
+            a.update(i0, a.apply(i0.+(1)));
+            a.update(i0.+(1), temp)
+          }
+        else
+          ();
+        var m: Int = 2;
+        while$5(){
+          if (m.<(n))
+            {
+              {
+                val next: T = a.apply(i0.+(m));
+                if (ord.compare(next, a.apply(i0.+(m).-(1))).<(0))
+                  {
+                    var iA: Int = i0;
+                    var iB: Int = i0.+(m).-(1);
+                    while$3(){
+                      if (iB.-(iA).>(1))
+                        {
+                          {
+                            val ix: Int = iA.+(iB).>>>(1);
+                            if (ord.compare(next, a.apply(ix)).<(0))
+                              iB = ix
+                            else
+                              iA = ix
+                          };
+                          while$3()
+                        }
+                      else
+                        ()
+                    };
+                    val ix: Int = iA.+(if (ord.compare(next, a.apply(iA)).<(0))
+                      0
+                    else
+                      1);
+                    var i: Int = i0.+(m);
+                    while$4(){
+                      if (i.>(ix))
+                        {
+                          {
+                            a.update(i, a.apply(i.-(1)));
+                            i = i.-(1)
+                          };
+                          while$4()
+                        }
+                      else
+                        ()
+                    };
+                    a.update(ix, next)
+                  }
+                else
+                  ();
+                m = m.+(1)
+              };
+              while$5()
+            }
+          else
+            ()
+        }
+      };
+      private def mergeSort[@specialized T](a: Array[T], i0: Int, iN: Int, ord: scala.math.Ordering[T], scratch: Array[T] = null)(implicit evidence$2: scala.reflect.ClassTag[T]): Unit = if (iN.-(i0).<(32))
+        Sorting.this.insertionSort[T](a, i0, iN, ord)
+      else
+        {
+          val iK: Int = i0.+(iN).>>>(1);
+          val sc: Array[T] = if (scratch.eq(null))
+            evidence$2.newArray(iK.-(i0))
+          else
+            scratch;
+          Sorting.this.mergeSort[T](a, i0, iK, ord, sc)(evidence$2);
+          Sorting.this.mergeSort[T](a, iK, iN, ord, sc)(evidence$2);
+          Sorting.this.mergeSorted[T](a, i0, iK, iN, ord, sc)
+        };
+      <synthetic> private def mergeSort$default$5[@specialized T]: Null = null;
+      private def mergeSorted[@specialized T](a: Array[T], i0: Int, iK: Int, iN: Int, ord: scala.math.Ordering[T], scratch: Array[T]): Unit = if (ord.compare(a.apply(iK.-(1)), a.apply(iK)).>(0))
+        {
+          var i: Int = i0;
+          val jN: Int = iK.-(i0);
+          var j: Int = 0;
+          while$6(){
+            if (i.<(iK))
+              {
+                {
+                  scratch.update(j, a.apply(i));
+                  i = i.+(1);
+                  j = j.+(1)
+                };
+                while$6()
+              }
+            else
+              ()
+          };
+          var k: Int = i0;
+          j = 0;
+          while$7(){
+            if (i.<(iN).&&(j.<(jN)))
+              {
+                {
+                  if (ord.compare(a.apply(i), scratch.apply(j)).<(0))
+                    {
+                      a.update(k, a.apply(i));
+                      i = i.+(1)
+                    }
+                  else
+                    {
+                      a.update(k, scratch.apply(j));
+                      j = j.+(1)
+                    };
+                  k = k.+(1)
+                };
+                while$7()
+              }
+            else
+              ()
+          };
+          while$8(){
+            if (j.<(jN))
+              {
+                {
+                  a.update(k, scratch.apply(j));
+                  j = j.+(1);
+                  k = k.+(1)
+                };
+                while$8()
+              }
+            else
+              ()
+          }
+        }
+      else
+        ();
+      private def booleanSort(a: Array[Boolean]): Unit = {
+        var i: Int = 0;
+        var n: Int = 0;
+        while$9(){
+          if (i.<(a.length))
+            {
+              {
+                if (a.apply(i).unary_!)
+                  n = n.+(1)
+                else
+                  ();
+                i = i.+(1)
+              };
+              while$9()
+            }
+          else
+            ()
+        };
+        i = 0;
+        while$10(){
+          if (i.<(n))
+            {
+              {
+                a.update(i, false);
+                i = i.+(1)
+              };
+              while$10()
+            }
+          else
+            ()
+        };
+        while$11(){
+          if (i.<(a.length))
+            {
+              {
+                a.update(i, true);
+                i = i.+(1)
+              };
+              while$11()
+            }
+          else
+            ()
+        }
+      };
+      @inline private def sort[T](a: Array[T], ord: scala.math.Ordering[T]): Unit = a match {
+        case (_: Array[AnyRef]) => {
+          if (a.length.>(1).&&(ord.eq(null)))
+            throw new scala.this.`package`.NullPointerException("Ordering")
+          else
+            ();
+          java.util.Arrays.sort[T](a, ord)
+        }
+        case (a @ (_: Array[Int])) => if (ord.eq(scala.math.Ordering.Int))
+          java.util.Arrays.sort(a)
+        else
+          Sorting.this.mergeSort[Int](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Int])((ClassTag.Int: scala.reflect.ClassTag[Int]))
+        case (a @ (_: Array[Double])) => Sorting.this.mergeSort[Double](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Double])((ClassTag.Double: scala.reflect.ClassTag[Double]))
+        case (a @ (_: Array[Long])) => if (ord.eq(scala.math.Ordering.Long))
+          java.util.Arrays.sort(a)
+        else
+          Sorting.this.mergeSort[Long](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Long])((ClassTag.Long: scala.reflect.ClassTag[Long]))
+        case (a @ (_: Array[Float])) => Sorting.this.mergeSort[Float](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Float])((ClassTag.Float: scala.reflect.ClassTag[Float]))
+        case (a @ (_: Array[Char])) => if (ord.eq(scala.math.Ordering.Char))
+          java.util.Arrays.sort(a)
+        else
+          Sorting.this.mergeSort[Char](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Char])((ClassTag.Char: scala.reflect.ClassTag[Char]))
+        case (a @ (_: Array[Byte])) => if (ord.eq(scala.math.Ordering.Byte))
+          java.util.Arrays.sort(a)
+        else
+          Sorting.this.mergeSort[Byte](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Byte])((ClassTag.Byte: scala.reflect.ClassTag[Byte]))
+        case (a @ (_: Array[Short])) => if (ord.eq(scala.math.Ordering.Short))
+          java.util.Arrays.sort(a)
+        else
+          Sorting.this.mergeSort[Short](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Short])((ClassTag.Short: scala.reflect.ClassTag[Short]))
+        case (a @ (_: Array[Boolean])) => if (ord.eq(scala.math.Ordering.Boolean))
+          Sorting.this.booleanSort(a)
+        else
+          Sorting.this.mergeSort[Boolean](a, 0, a.length, ord, Sorting.this.mergeSort$default$5[Boolean])((ClassTag.Boolean: scala.reflect.ClassTag[Boolean]))
+        case null => throw new scala.this.`package`.NullPointerException()
+      };
+      def stableSort[K](a: Array[K])(implicit evidence$3: scala.reflect.ClassTag[K], evidence$4: scala.math.Ordering[K]): Unit = Sorting.this.sort[K](a, scala.math.Ordering.apply[K](evidence$4));
+      def stableSort[K](a: Array[K], f: (K, K) => Boolean)(implicit evidence$5: scala.reflect.ClassTag[K]): Unit = Sorting.this.sort[K](a, scala.math.Ordering.fromLessThan[K](f));
+      def stableSort[K](a: Seq[K])(implicit evidence$6: scala.reflect.ClassTag[K], evidence$7: scala.math.Ordering[K]): Array[K] = {
+        val ret: Array[K] = a.toArray[K](evidence$6);
+        Sorting.this.sort[K](ret, scala.math.Ordering.apply[K](evidence$7));
+        ret
+      };
+      def stableSort[K](a: Seq[K], f: (K, K) => Boolean)(implicit evidence$8: scala.reflect.ClassTag[K]): Array[K] = {
+        val ret: Array[K] = a.toArray[K](evidence$8);
+        Sorting.this.sort[K](ret, scala.math.Ordering.fromLessThan[K](f));
+        ret
+      };
+      def stableSort[K, M](a: Seq[K], f: K => M)(implicit evidence$9: scala.reflect.ClassTag[K], evidence$10: scala.math.Ordering[M]): Array[K] = {
+        val ret: Array[K] = a.toArray[K](evidence$9);
+        Sorting.this.sort[K](ret, scala.math.Ordering.apply[M](evidence$10).on[K](f));
+        ret
+      }
+    }
+  }
+}
+

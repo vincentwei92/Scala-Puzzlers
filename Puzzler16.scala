@@ -26,5 +26,17 @@ object Puzzler {
 	//
 	// ******Attention*******
 	// First, all the parameter names of the apply method of the Anon Function object is in the forms of (v1, v2, v3, ...)
-	// Second, there are default value for the paremeters.
+	// Second, there are default value for the parameters.
+
+
+}
+
+object SeperateParamsList {
+	def area(x: Int)(y: Int = x)(z: Int = x * y) = x * y
+	// <synthetic> def area$default$2(x: Int): Int = x;
+ //  <synthetic> def area$default$3(x: Int, y: Int): Int = x.*(y);
+	val a = area(2)(100)()
+	val aa = area(100) _
+	val aaa = area(100)()()
+
 }
